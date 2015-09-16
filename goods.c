@@ -13,21 +13,28 @@ struct Goods
   int price;
 };
 
+void add_string(char *text, char *info);
+void add_int(int *amount, char *info);
+
 void add_good(struct Goods *ware)
 {
-  scanf("%s", ware->name);
-
-  strcpy(ware->description, "Väldigt goda fina gula frukter som malin har plockat");
-  strcpy(ware->shelf, "A24");
-  ware->amount = 1337;
-  ware->price = 5;
+  add_string(ware->name, "\nInsert name :");
+  add_string(ware->description,"\nInsert description :");
+  add_string(ware->shelf,"\nInsert shelf :");
+  add_int(&ware->amount, "\nInsert amount :");
+  add_int(&ware->price, "\nInsert price :");
 }
 
 void add_string(char *text, char *info)
 { 
   printf("%s", info);
   scanf("%s", text);
+}
 
+void add_int(int *amount, char *info)
+{
+  printf("%s", info);
+  scanf("%d", amount); 
 }
 
 
