@@ -50,12 +50,15 @@ int main(void)
 	  }
 	else if (input == 'R' || input == 'r')
 	  {
-	    create_goods(all_wares);
-	    list_goods(all_wares, 20);
+	    //create_goods(all_wares);
+	    
 	  }
 	else if (input == 'E' || input == 'e');
 	else if (input == 'U' || input == 'u');
-	else if (input == 'L' || input == 'l');
+	else if (input == 'L' || input == 'l')
+	  {
+	    list_goods(all_wares, index);
+	  }
 	else if (input == 'Q' || input == 'q')
 	  {
 	    printf("You can never escape\n");
