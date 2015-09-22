@@ -13,6 +13,7 @@ struct Goods
   int price;
 };
 
+void choose_good(int *totalindex, int bigindex);
 void add_string(char *text, char *info);
 void add_int(int *amount, char *info);
 void edit_good(struct Goods *ware);
@@ -77,11 +78,11 @@ void add_int(int *amount, char *info)
 
 void print_good(struct Goods *ware)
 {
-  printf("\n%s\n", ware->name);
-  printf("%s\n", ware->description);
-  printf("%s\n", ware->shelf);
-  printf("%d\n", ware->amount);
-  printf("%d\n", ware->price);
+  printf("\nName : %s ", ware->name);
+  printf("\nDescription : %s ", ware->description);
+  printf("\nShelf : %s", ware->shelf);
+  printf("\nAmount : %d", ware->amount);
+  printf("\nPrice : %d", ware->price);
 }
 
 void print_good_edit(struct Goods *ware)
@@ -91,4 +92,13 @@ void print_good_edit(struct Goods *ware)
   printf("3: %s\n", ware->shelf);
   printf("4: %d\n", ware->amount);
   printf("5: %d\n", ware->price);
+} 
+
+
+void choose_good(int *totalindex, int bigindex)
+{
+  int smallindex;
+  printf("\nChoose a ware :");
+  scanf("%d", &smallindex);
+  *totalindex = bigindex + (--smallindex);
 }
