@@ -44,7 +44,9 @@ int main(void)
 	
 	if      (input == 'A' || input == 'a')
 	  {
+	    //ger oss en peakre till en bit av minne med storleken av struct goods
 	    struct Goods *temp = malloc(sizeof(struct Goods));
+	    //checkar så att pekaren inte är null dvs pekaren är giltig
 	    assert(temp != NULL);
 
       	    add_good(temp);
@@ -54,7 +56,7 @@ int main(void)
 	      {
 		 print_good(temp);
        	         int choice;	   
-	         printf("1:Save  2:Discard  3:Edit   :");
+	         printf("\n1:Save  2:Discard  3:Edit   :");
 	         scanf("%d", &choice);
 		 if      (choice == 1)
 		   {
@@ -64,7 +66,7 @@ int main(void)
 		   }
 		 else if (choice == 2)
 		   {
-		     printf("Discarded\n");
+		     printf("Discarded\n"); //skarv
 		     done = true;
 		   }
 		 else if (choice == 3)
@@ -92,10 +94,6 @@ int main(void)
 	else if (input == 'L' || input == 'l')
 	  {
 	    list_goods(all_wares, index);
-	    int val;
-	    printf("\nVal av vara :");
-	    scanf("%d", &val);
-	    print_good(&all_wares[--val]);
 	  }
 	else if (input == 'Q' || input == 'q')
 	  {
@@ -128,7 +126,7 @@ void list_goods(struct Goods *listOfGoods, int index)
 {
   for (int i = 0; i < 5; i++)
     {
-      for (int j = 0; (i*20)+j < index && j < 20; j++)
+      for (int j = 0;((i*20)+j < index) && (j < 20); j++)
 	{
 	  printf("\n%d : %s", (j+1), listOfGoods[(i*20)+j].name); 
 	}
@@ -137,8 +135,13 @@ void list_goods(struct Goods *listOfGoods, int index)
       char choice[2];
       scanf("%s", choice);
       if      (*choice == 'W' || *choice == 'w')
-	{
-
+	{ 
+	  //totalindex = bigindex + smallindex
+	  int totalindex;
+	  //välja 
+	  choose_good(&totalindex,(i*20));
+	  //printa
+	  print_good(&listOfGoods[totalindex]);
 	}
       else if (*choice == 'C' || *choice == 'c')
 	{
