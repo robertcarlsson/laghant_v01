@@ -44,9 +44,29 @@ int main(void)
 	
 	if      (input == 'A' || input == 'a')
 	  {
-	    add_good(&all_wares[index]);
-	    print_good(&all_wares[index]);
-	    index++;
+	    struct Goods *temp = malloc(sizeof(struct Goods));
+	    assert(temp != NULL);
+
+	    add_good(temp);
+	    print_good(temp);
+	    int choice;	   
+	    printf("1:Save  2:Discard  3:Edit   :");
+	    scanf("%d", &choice);
+	    if      (choice == 1)
+	      {
+		all_wares[index] = *temp;
+		index++;
+	      }
+	    else if (choice == 2)
+	      {
+		printf("Discarded\n");
+	      }
+	    else if (choice == 3)
+	      {
+		edit_good(&all_wares[index]);
+	      }
+	    assert(temp != NULL);
+	    free(temp);
 	  }
 	else if (input == 'R' || input == 'r')
 	  {
@@ -58,6 +78,10 @@ int main(void)
 	else if (input == 'L' || input == 'l')
 	  {
 	    list_goods(all_wares, index);
+	    int val;
+	    printf("\nVal av vara :");
+	    scanf("%d", &val);
+	    print_good(&all_wares[--val]);
 	  }
 	else if (input == 'Q' || input == 'q')
 	  {
@@ -93,6 +117,7 @@ void list_goods(struct Goods *listOfGoods, int index)
       for (int j = 0; (i*20)+j < index && j < 20; j++)
 	{
 	  printf("\n%d : %s", (j+1), listOfGoods[(i*20)+j].name);
+	  break;
 	}
     }
 }
