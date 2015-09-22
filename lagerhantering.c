@@ -47,34 +47,48 @@ int main(void)
 	    struct Goods *temp = malloc(sizeof(struct Goods));
 	    assert(temp != NULL);
 
-	    add_good(temp);
-	    print_good(temp);
-	    int choice;	   
-	    printf("1:Save  2:Discard  3:Edit   :");
-	    scanf("%d", &choice);
-	    if      (choice == 1)
+      	    add_good(temp);
+
+	    bool done = false;
+	    while (!done)
 	      {
-		all_wares[index] = *temp;
-		index++;
-	      }
-	    else if (choice == 2)
-	      {
-		printf("Discarded\n");
-	      }
-	    else if (choice == 3)
-	      {
-		edit_good(&all_wares[index]);
+		 print_good(temp);
+       	         int choice;	   
+	         printf("1:Save  2:Discard  3:Edit   :");
+	         scanf("%d", &choice);
+		 if      (choice == 1)
+		   {
+		     all_wares[index] = *temp;
+		     index++;
+		     done = true;
+		   }
+		 else if (choice == 2)
+		   {
+		     printf("Discarded\n");
+		     done = true;
+		   }
+		 else if (choice == 3)
+		   {
+		     edit_good(temp);
+		     done = false;
+		   }
 	      }
 	    assert(temp != NULL);
 	    free(temp);
 	  }
 	else if (input == 'R' || input == 'r')
 	  {
-	    //create_goods(all_wares);
+	    
 	    
 	  }
-	else if (input == 'E' || input == 'e');
-	else if (input == 'U' || input == 'u');
+	else if (input == 'E' || input == 'e')
+	  {
+	    list_goods(all_wares, index);
+	  }
+	else if (input == 'U' || input == 'u')
+	  {
+	    create_goods(all_wares);
+	  }
 	else if (input == 'L' || input == 'l')
 	  {
 	    list_goods(all_wares, index);
@@ -90,10 +104,10 @@ int main(void)
 	    should_quit = true;
 	  }
 	else
-	{
-	  printf("Du are Dolig\n");
-	  valid_input = false;
-	}
+	  {
+	    printf("Du are Dolig\n");
+	    valid_input = false;
+	  }
       }
     }
 
@@ -116,9 +130,22 @@ void list_goods(struct Goods *listOfGoods, int index)
     {
       for (int j = 0; (i*20)+j < index && j < 20; j++)
 	{
-	  printf("\n%d : %s", (j+1), listOfGoods[(i*20)+j].name);
+	  printf("\n%d : %s", (j+1), listOfGoods[(i*20)+j].name); 
+	}
+      
+      printf("\n\nChoose [W]are, [N]ext page, [C]ancel :");
+      char choice[2];
+      scanf("%s", choice);
+      if      (*choice == 'W' || *choice == 'w')
+	{
+
+	}
+      else if (*choice == 'C' || *choice == 'c')
+	{
 	  break;
 	}
+      else if (*choice == 'N' || *choice == 'n');
+   
     }
 }
 
