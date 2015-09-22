@@ -102,3 +102,46 @@ void choose_good(int *totalindex, int bigindex)
   scanf("%d", &smallindex);
   *totalindex = bigindex + (--smallindex);
 }
+
+/*
+void remove_ware(struct Goods *listOfGoods, int index)
+{
+for (int i = 0; i < 5; i++)
+    {
+      for (int j = 0;((i*20)+j < index) && (j < 20); j++)
+	{
+	  printf("\n%d : %s", (j+1), listOfGoods[(i*20)+j].name); 
+	}
+      
+      printf("\n\nChoose [W]are to remove, [N]ext page, [C]ancel :");
+      char choice[2];
+      scanf("%s", choice);
+      if      (*choice == 'W' || *choice == 'w')
+	{ 
+	  //totalindex = bigindex + smallindex
+	  int totalindex;
+	  //välja smallindex
+	  choose_good(&totalindex,(i*20));
+	  //printa
+	  print_good(&listOfGoods[totalindex]);
+	  while (true)
+	    {
+	  printf("\nAre you sure you want to remove this?[y/n]");
+	  scanf("%s",&answer);
+	  if (answer == y)||(answer == Y); //kall på riktig remove
+	  else if (answer == n) || (answer == N) 
+				     {
+				       break; 
+				     } 
+	  else {printf("\nInvalid input, try again");
+	}
+      else if (*choice == 'C' || *choice == 'c')
+	{
+	  break;
+	}
+      else if (*choice == 'N' || *choice == 'n');
+    }
+} 
+
+*/
+  
