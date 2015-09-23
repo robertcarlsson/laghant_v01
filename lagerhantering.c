@@ -27,6 +27,7 @@ int main(void)
   struct Goods saved_wares[100];
   int index = 0;
   bool add_bool = false;
+  bool change_action = false;
 
   while(!should_quit)
     {
@@ -38,13 +39,16 @@ int main(void)
 	   "[L]ist everything\n"
 	   "[Q]uit this amazing program\n");
 
-      *saved_wares = *all_wares;
+      if (change_action) *saved_wares = *all_wares;
+      change_action = false;
+      valid_input = false;
 
       while(!valid_input){
 	printf("\nYour option: [A,a,R,r,E,e,U,u,L,l,Q,q] : ");
         //while(getchar() != '\n');
 	scanf("%s", &input);
-	
+	valid_input = true;
+
 	if      (input == 'A' || input == 'a')
 	  {
 	    //ger oss en peakre till en bit av minne med storleken av struct goods
@@ -67,6 +71,7 @@ int main(void)
 		     index++;
 		     done = true;
 		     add_bool = true;
+		     change_action = true;
 		   }
 		 else if (choice == 2)
 		   {
@@ -80,7 +85,7 @@ int main(void)
 		   }
 		 else
 		   {
-
+		     printf("\nWrong command: use 1,2 or 3");
 		   }
 	      }
 	    assert(temp != NULL);
@@ -88,16 +93,17 @@ int main(void)
 	  }
 	else if (input == 'R' || input == 'r')
 	  {
-	    
+	    change_action = true;
 	    
 	  }
 	else if (input == 'E' || input == 'e')
 	  {
 	    list_goods(all_wares, index);
+	    change_action = true;
 	  }
 	else if (input == 'U' || input == 'u')
 	  {
-	    if (all_wares == saved_wares)
+	    if ()
 	      {
 		printf("\nNo action to undo: ");
 	      }
@@ -119,7 +125,6 @@ int main(void)
 	else if (input == 'Q' || input == 'q')
 	  {
 	    printf("You can never escape\n");
-	    valid_input = true;
 	    should_quit = true;
 	  }
 	else
