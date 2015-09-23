@@ -24,8 +24,9 @@ int main(void)
   bool valid_input = false;
   char input;
   struct Goods all_wares[100];
+  struct Goods saved_wares[100];
   int index = 0;
-
+  bool add_bool = false;
 
   while(!should_quit)
     {
@@ -36,7 +37,9 @@ int main(void)
 	   "[U]ndo a bad decision\n"
 	   "[L]ist everything\n"
 	   "[Q]uit this amazing program\n");
-      
+
+      *saved_wares = *all_wares;
+
       while(!valid_input){
 	printf("\nYour option: [A,a,R,r,E,e,U,u,L,l,Q,q] : ");
         //while(getchar() != '\n');
@@ -63,6 +66,7 @@ int main(void)
 		     all_wares[index] = *temp;
 		     index++;
 		     done = true;
+		     add_bool = true;
 		   }
 		 else if (choice == 2)
 		   {
@@ -73,6 +77,10 @@ int main(void)
 		   {
 		     edit_good(temp);
 		     done = false;
+		   }
+		 else
+		   {
+
 		   }
 	      }
 	    assert(temp != NULL);
@@ -89,7 +97,20 @@ int main(void)
 	  }
 	else if (input == 'U' || input == 'u')
 	  {
-	    create_goods(all_wares);
+	    if (all_wares == saved_wares)
+	      {
+		printf("\nNo action to undo: ");
+	      }
+	    else
+	      {
+		printf("\nAction Undone");
+         	*all_wares = *saved_wares;
+		if (add_bool)
+		  {
+		    index--;
+		    add_bool = false;
+		  }
+	      }
 	  }
 	else if (input == 'L' || input == 'l')
 	  {
