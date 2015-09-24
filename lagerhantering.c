@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "goods.c"
-
+//#include "add_from_stdin.c"
 /*
 void print_good(struct Goods *ware);
 
@@ -15,8 +15,9 @@ void add_good(struct Goods *ware);
 */
 void list_goods(struct Goods *listOfGoods, int index);
 void create_goods(struct Goods *listOfGoods);
+//int choose_good(struct Goods *listOfGoods, int index);
 
-bool correct_action(char *input);
+
 
 int main(void)
 {
@@ -31,23 +32,21 @@ int main(void)
 
   while(!should_quit)
     {
-      puts("Welcome to Warehouse number 42\n"
-	   "[A]dd a goodie good\n"
-	   "[R]emove a badie good\n"
-	   "[E]dit a not so goodie good\n"
+      puts("\nWelcome to Warehouse number 42\n"
+	   "[A]dd a good\n"
+	   "[R]emove a good\n"
+	   "[E]dit a good\n"
 	   "[U]ndo a bad decision\n"
 	   "[L]ist everything\n"
 	   "[Q]uit this amazing program\n");
 
-      if (change_action) *saved_wares = *all_wares;
-      change_action = false;
       valid_input = false;
-
+      
       while(!valid_input){
-	printf("\nYour option: [A,a,R,r,E,e,U,u,L,l,Q,q] : ");
-        //while(getchar() != '\n');
-	scanf("%s", &input);
+
+	input = ask_for_char("Your options:  ", "AaRrEeUuLlQq");
 	valid_input = true;
+
 
 	if      (input == 'A' || input == 'a')
 	  {
@@ -62,30 +61,31 @@ int main(void)
 	    while (!done)
 	      {
 		 print_good(temp);
-       	         int choice;	   
-	         printf("\n1:Save  2:Discard  3:Edit   :");
-	         scanf("%d", &choice);
-		 if      (choice == 1)
+       	         int choice;
+		 choice = ask_for_char("\nSave, Discard, Edit :", "SsDdEe");
+		 
+		 if      (choice == 'S' || choice == 's')
 		   {
+		     *saved_wares = *all_wares;
 		     all_wares[index] = *temp;
 		     index++;
 		     done = true;
 		     add_bool = true;
 		     change_action = true;
 		   }
-		 else if (choice == 2)
+		 else if (choice == 'D' || choice == 'd')
 		   {
 		     printf("Discarded\n"); //skarv
 		     done = true;
 		   }
-		 else if (choice == 3)
+		 else if (choice == 'E' || choice == 'e')
 		   {
 		     edit_good(temp);
 		     done = false;
 		   }
 		 else
 		   {
-		     printf("\nWrong command: use 1,2 or 3");
+		     printf("\nFaulty code");
 		   }
 	      }
 	    assert(temp != NULL);
@@ -94,7 +94,7 @@ int main(void)
 	else if (input == 'R' || input == 'r')
 	  {
 	    change_action = true;
-	    
+	    *saved_wares = *all_wares;
 	  }
 	else if (input == 'E' || input == 'e')
 	  {
@@ -103,7 +103,7 @@ int main(void)
 	  }
 	else if (input == 'U' || input == 'u')
 	  {
-	    if ()
+	    if (true)
 	      {
 		printf("\nNo action to undo: ");
 	      }
@@ -139,24 +139,29 @@ int main(void)
 }
 
 
-
-bool correct_action(char *input)
-{
-  printf("Your option: [A,a,R,r,E,e,U,u,L,l,Q,q]\n | ");
-  
-  scanf("%c", input);
-  return false;
-}
-
 void list_goods(struct Goods *listOfGoods, int index)
 {
+  char ans[1];
   for (int i = 0; i < 5; i++)
     {
       for (int j = 0;((i*20)+j < index) && (j < 20); j++)
 	{
 	  printf("\n%d : %s", (j+1), listOfGoods[(i*20)+j].name); 
 	}
-      
+      /*
+      printf("\n[N]ext, [C]ancel");
+      scanf("%s" ,ans);
+      if       ((ans == 'N' || ans == 'n') && (i*20) < index)
+	{
+	  
+	}
+*/							      
+    }
+}
+/*
+int choose_good(struct Goods *listOfGoods, int index)
+{
+  /*
       printf("\n\nChoose [W]are, [N]ext page, [C]ancel :");
       char choice[2];
       scanf("%s", choice);
@@ -173,10 +178,10 @@ void list_goods(struct Goods *listOfGoods, int index)
 	{
 	  break;
 	}
-      else if (*choice == 'N' || *choice == 'n');
-   
-    }
+      else if (*choice == 'N' || *choice == 'n');  
+  return 0;
 }
+*/
 
 void create_goods(struct Goods *listOfGoods)
 {

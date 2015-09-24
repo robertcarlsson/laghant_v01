@@ -3,12 +3,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include "add_from_stdin.c"
+
+struct shelf
+{
+  char letter;
+  int nmr;
+};
 
 struct Goods
 {
   char name[30];
   char description[200];
-  char shelf[5];
+  struct shelf place; 
   int amount;
   int price;
 };
@@ -18,49 +25,55 @@ void add_string(char *text, char *info);
 void add_int(int *amount, char *info);
 void edit_good(struct Goods *ware);
 void print_good_edit(struct Goods *ware);
+//struct shelf add_check_shelf(struct Goods
 
 void add_good(struct Goods *ware)
 {
-  add_string(ware->name, "\nInsert name :");
-  add_string(ware->description,"\nInsert description :");
-  add_string(ware->shelf,"\nInsert shelf :");
-  add_int(&ware->amount, "\nInsert amount :");
-  add_int(&ware->price, "\nInsert price :");
+  //add_string(ware->name, "\nInsert name :");
+  strcpy(ware->name, ask_for_string("\nInsert name :", sizeof(ware->name)));
+
+  //add_string(ware->description,"\nInsert description :");
+  strcpy(ware->description, ask_for_sentence("\nInsert description :", sizeof(ware->description)));
+  
+  //add_string(ware->shelf,"\nInsert shelf :");
+  ware->place.letter = ask_for_char("\nChoose Letter :", "ASCII");
+  ware->place.nmr = ask_for_int("\nChoose Number :", 0);
+  
+  //add_int(&ware->amount, "\nInsert amount :");
+  ware->amount = ask_for_int("\nInsert amount", 0);
+
+  // add_int(&ware->price, "\nInsert price :");
+  ware->price = ask_for_int("\nChoose price", 0);
+
 }
 
 void edit_good(struct Goods *ware)
 {
   int choice;
-  printf("\nChoose information to edit");
+
   print_good_edit(ware);
-  printf("Edit :");
-  scanf("%d", &choice);
+  choice = ask_for_int("\nChoose information to edit", 5);
+
   if      (choice == 1)
     {
-      add_string(ware->name, "\nInsert name:");
+      strcpy(ware->name, ask_for_string("\nInsert name :", sizeof(ware->name)));
     }
   else if (choice == 2)
     {
-      add_string(ware->description,"\nInsert description :");
+      strcpy(ware->description, ask_for_sentence("\nInsert description :", sizeof(ware->description)));
     }
   else if (choice == 3)
     {
-      add_string(ware->shelf,"\nInsert shelf :");
+      //fixa egen shelf funcion som kan leta efter andra shelfs.
     }
   else if (choice == 4)
     {
-      add_int(&ware->amount, "\nInsert amount :");
+      ware->amount = ask_for_int("\nInsert amount", 0);
     }
   else if (choice == 5)
     {
-      add_int(&ware->price, "\nInsert price :");
+      ware->price = ask_for_int("\nChoose price", 0);
     }
-
-}
-
-void valid_input(char *info, int *validinputs[])
-{
-  
 }
 
 void add_string(char *text, char *info)
@@ -80,7 +93,7 @@ void print_good(struct Goods *ware)
 {
   printf("\nName : %s ", ware->name);
   printf("\nDescription : %s ", ware->description);
-  printf("\nShelf : %s", ware->shelf);
+  //printf("\nShelf : %s", ware->shelf);
   printf("\nAmount : %d", ware->amount);
   printf("\nPrice : %d", ware->price);
 }
@@ -89,7 +102,7 @@ void print_good_edit(struct Goods *ware)
 {
   printf("\n1: %s\n", ware->name);
   printf("2: %s\n", ware->description);
-  printf("3: %s\n", ware->shelf);
+  //printf("3: %s\n", ware->shelf);
   printf("4: %d\n", ware->amount);
   printf("5: %d\n", ware->price);
 } 
