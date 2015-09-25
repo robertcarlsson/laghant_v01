@@ -13,7 +13,7 @@ void add_string(char *text, char *info);
 
 void add_good(struct Goods *ware);
 */
-void list_goods(struct Goods *listOfGoods, int index);
+void list_goods(struct Goods *listOfGoods, int index, int page);
 void create_goods(struct Goods *listOfGoods);
 //int choose_good(struct Goods *listOfGoods, int index);
 
@@ -21,16 +21,14 @@ void create_goods(struct Goods *listOfGoods);
 
 int main(void)
 {
-  bool should_quit = false;
-  bool valid_input = false;
-  char input;
+  char input = 'n';
   struct Goods all_wares[100];
   struct Goods saved_wares[100];
   int index = 0;
   bool add_bool = false;
-  bool change_action = false;
+  
 
-  while(!should_quit)
+  while(input != 'Q' && input != 'q')
     {
       puts("\nWelcome to Warehouse number 42\n"
 	   "[A]dd a good\n"
@@ -40,13 +38,7 @@ int main(void)
 	   "[L]ist everything\n"
 	   "[Q]uit this amazing program\n");
 
-      valid_input = false;
-      
-      while(!valid_input){
-
 	input = ask_for_char("Your options:  ", "AaRrEeUuLlQq");
-	valid_input = true;
-
 
 	if      (input == 'A' || input == 'a')
 	  {
@@ -71,7 +63,7 @@ int main(void)
 		     index++;
 		     done = true;
 		     add_bool = true;
-		     change_action = true;
+		     
 		   }
 		 else if (choice == 'D' || choice == 'd')
 		   {
@@ -93,13 +85,13 @@ int main(void)
 	  }
 	else if (input == 'R' || input == 'r')
 	  {
-	    change_action = true;
+	    
 	    *saved_wares = *all_wares;
 	  }
 	else if (input == 'E' || input == 'e')
 	  {
-	    list_goods(all_wares, index);
-	    change_action = true;
+	    
+	    
 	  }
 	else if (input == 'U' || input == 'u')
 	  {
@@ -120,76 +112,42 @@ int main(void)
 	  }
 	else if (input == 'L' || input == 'l')
 	  {
-	    list_goods(all_wares, index);
-	  }
-	else if (input == 'Q' || input == 'q')
-	  {
-	    printf("You can never escape\n");
-	    should_quit = true;
+	    int page = 0;
+	    char *alt1 = "Cc";
+	    char *alt2 = "NnCc";
+	    char choice = 1;
+	    while (choice != 'C' && choice != 'c')
+	      {
+
+		list_goods(all_wares, index, page);
+		if (index >((1+page)*20))
+		  {
+		    
+		    choice = ask_for_char("Next page or Cancel ", alt2);
+		  }
+		else 
+		  {
+		    choice = ask_for_char("End page, please Cancel", alt1); 
+		  }	
+		if (choice == 'N' || choice == 'n')
+		  {
+		    page++;
+		  }
+	      }
 	  }
 	else
 	  {
 	    printf("Du are Dolig\n");
-	    valid_input = false;
 	  }
-      }
     }
-
   return 0;
 }
 
 
-void list_goods(struct Goods *listOfGoods, int index)
+void list_goods(struct Goods *listOfGoods, int index, int page)
 {
-  char ans[1];
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 20 && i < index; i++)
     {
-      for (int j = 0;((i*20)+j < index) && (j < 20); j++)
-	{
-	  printf("\n%d : %s", (j+1), listOfGoods[(i*20)+j].name); 
-	}
-      /*
-      printf("\n[N]ext, [C]ancel");
-      scanf("%s" ,ans);
-      if       ((ans == 'N' || ans == 'n') && (i*20) < index)
-	{
-	  
-	}
-*/							      
-    }
-}
-/*
-int choose_good(struct Goods *listOfGoods, int index)
-{
-  /*
-      printf("\n\nChoose [W]are, [N]ext page, [C]ancel :");
-      char choice[2];
-      scanf("%s", choice);
-      if      (*choice == 'W' || *choice == 'w')
-	{ 
-	  //totalindex = bigindex + smallindex
-	  int totalindex;
-	  //välja 
-	  choose_good(&totalindex,(i*20));
-	  //printa
-	  print_good(&listOfGoods[totalindex]);
-	}
-      else if (*choice == 'C' || *choice == 'c')
-	{
-	  break;
-	}
-      else if (*choice == 'N' || *choice == 'n');  
-  return 0;
-}
-*/
-
-void create_goods(struct Goods *listOfGoods)
-{
-  for (int i = 0; i < 5; i++)
-    {
-      for (int j = 0; j < 20; j++)
-	{
-	  strcpy(listOfGoods[(i*20)+j].name, "Hej");
-	}
+      printf("\n%d. %s\n", (i+1), listOfGoods[i+(page*20)].name);
     }
 }

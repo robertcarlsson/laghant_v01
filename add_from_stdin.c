@@ -37,6 +37,7 @@ char ask_for_char(char *q, char *alt)
 
     } while (strchr(alt, input) == NULL);
   Clear_stdin;
+
   return input;
 }
 
@@ -74,7 +75,6 @@ int ask_for_int(char *q, int alt)
 	} while (!ok || input < 1 || input > alt);
     }
     
-
   Clear_stdin;  
   return input;
 }
@@ -82,6 +82,8 @@ int ask_for_int(char *q, int alt)
 char* ask_for_string(char *q, int size)
 {
   char *input = malloc(sizeof(char[size]));
+  assert(input != NULL);
+
   int ok = 0;
   printf("%s [String] :", q);
 
@@ -95,6 +97,7 @@ char* ask_for_string(char *q, int size)
 	}
     } while (!ok);
 
+  //free(input);
   Clear_stdin;
   return input;
 }
@@ -103,15 +106,17 @@ char* ask_for_string(char *q, int size)
 char* ask_for_sentence(char *q, int size)
 {
   char *input = malloc(sizeof(char[size]));
-  char c = 0;
-  int ok = 0;
+  assert(input != NULL);
+  char c;
+  //int ok = 0;
   printf("%s [String] :", q);
   
   while (true)
     {
       c = getchar();
       if (c == '\n' || c == '\0') break;
-      strcat(input, &c);
+      strncat(input, &c, 1);
     }
+
   return input;
 }
