@@ -25,19 +25,25 @@ void add_string(char *text, char *info);
 void add_int(int *amount, char *info);
 void edit_good(struct Goods *ware);
 void print_good_edit(struct Goods *ware);
+void shelfcheck(struct Goods *listOfGoods, char letter, int number, int index);
 //struct shelf add_check_shelf(struct Goods
 
-void add_good(struct Goods *ware)
-{
+void add_good(struct Goods *ware, int index)
+{ 
+  char letter; 
+  int  number;
   //add_string(ware->name, "\nInsert name :");
-  strcpy(ware->name, ask_for_string("\nInsert name :", sizeof(ware->name)));
+  strcpy(ware->name, ask_for_string("\nInsert name ", sizeof(ware->name)));
 
   //add_string(ware->description,"\nInsert description :");
-  strcpy(ware->description, ask_for_sentence("\nInsert description :", sizeof(ware->description)));
+  strcpy(ware->description, ask_for_sentence("\nInsert description ", sizeof(ware->description)));
   
-  //add_string(ware->shelf,"\nInsert shelf :");
+  //add_string(ware->shelf,"\nInsert shelf :"); 
   ware->place.letter = ask_for_char("\nChoose Letter :", "ASCII");
   ware->place.nmr = ask_for_int("\nChoose Number :", 0);
+  letter = (ware->place.letter);
+  number = (ware->place.nmr); 
+  shelfcheck(ware, letter, number, index);
   
   //add_int(&ware->amount, "\nInsert amount :");
   ware->amount = ask_for_int("\nInsert amount", 0);
@@ -45,6 +51,22 @@ void add_good(struct Goods *ware)
   // add_int(&ware->price, "\nInsert price :");
   ware->price = ask_for_int("\nChoose price", 0);
 
+}
+
+void shelfcheck(struct Goods *listOfGoods, char letter, int number, int index)
+{ 
+  for (int i  = 0; i < index; i++)
+    { 
+      listOfGoods[i];
+      if ((listOfGoods->place.letter == letter) && (listOfGoods->place.nmr == number)) 
+	{ 
+	  printf("Try again, shelf already exists\n");
+	  *listOfGoods = listOfGoods[index];
+	  add_good(listOfGoods, index);
+        } 
+      else {}
+    }
+    
 }
 
 void edit_good(struct Goods *ware)
@@ -156,5 +178,7 @@ for (int i = 0; i < 5; i++)
     }
 } 
 
-*/
+*/ 
+
+
   

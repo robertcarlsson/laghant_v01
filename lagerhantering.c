@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "goods.c"
-//#include "add_from_stdin.c"
 /*
 void print_good(struct Goods *ware);
 
@@ -47,7 +46,7 @@ int main(void)
 	    //checkar så att pekaren inte är null dvs pekaren är giltig
 	    assert(temp != NULL);
 
-      	    add_good(temp);
+      	    add_good(temp, index);
 
 	    bool done = false;
 	    while (!done)
