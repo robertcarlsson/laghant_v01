@@ -46,7 +46,7 @@ int main(void)
 	    //checkar så att pekaren inte är null dvs pekaren är giltig
 	    assert(temp != NULL);
 
-      	    add_good(temp, index);
+      	    add_good(temp, index, saved_wares);
 
 	    bool done = false;
 	    while (!done)
