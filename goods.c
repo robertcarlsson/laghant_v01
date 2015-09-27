@@ -25,6 +25,7 @@ void add_string(char *text, char *info);
 void add_int(int *amount, char *info);
 void edit_good(struct Goods *ware);
 void print_good_edit(struct Goods *ware);
+void shelfie(struct shelf *temp);
 int shelfcheck(char inputLetter, int inputNumber, int index_nu, struct Goods *savedgoods);
 
 void add_good(struct Goods *ware, int index, struct Goods *savedgoods)
@@ -39,6 +40,7 @@ void add_good(struct Goods *ware, int index, struct Goods *savedgoods)
   
   //add_string(ware->shelf,"\nInsert shelf :"); 
 
+  /* Din förra kod gör om till funktions kall till shelfie 
   ware->place.letter = ask_for_char("\nChoose Letter :", "ASCII");
   ware->place.nmr = ask_for_int("\nChoose Number :", 0);
  
@@ -47,19 +49,29 @@ void add_good(struct Goods *ware, int index, struct Goods *savedgoods)
 
   if ((shelfcheck(inputLetter, inputNumber, index, savedgoods)) == 1)
     {
-  //add_int(&ware->amount, "\nInsert amount :");
-  ware->amount = ask_for_int("\nInsert amount", 0);
-
-  // add_int(&ware->price, "\nInsert price :");
-  ware->price = ask_for_int("\nChoose price", 0);
+     
     }
   else
     { 
       printf("FUCK YOU");
-      add_good(ware,index, savedgoods);              ;
+      add_good(ware,index, savedgoods;
     }
+
+  */
+
+   //add_int(&ware->amount, "\nInsert amount :");
+   ware->amount = ask_for_int("\nInsert amount", 0);
+      
+   // add_int(&ware->price, "\nInsert price :");
+   ware->price = ask_for_int("\nChoose price", 0);
 }
 
+
+void shelfie(struct shelf *temp)
+{
+  // fråga om namn och nummer här sen checka med alla varor om det finns
+  // annars kalla rekursivt på denna funnktion igen, tills den är klar.
+}
 
 int shelfcheck(char inputLetter, int inputNumber, int index_nu, struct Goods *savedgoods)
 {
@@ -93,7 +105,7 @@ void edit_good(struct Goods *ware)
     }
   else if (choice == 3)
     {
-      //fixa egen shelf funcion som kan leta efter andra shelfs.
+      // Här behövs kod som kallar efter info för shelf, fixa malin :3
     }
   else if (choice == 4)
     {
