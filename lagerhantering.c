@@ -19,20 +19,32 @@ void create_goods(struct Goods *listOfGoods);
 int choose_listedgood(struct Goods *listOfGoods, int index);
 //int choose_good(struct Goods *listOfGoods, int index);
 
-
+struct action
+{
+  enum { NOTHING, ADD, REMOVE, EDIT } type;
+  struct Goods saved;
+  struct Goods *mark;
+  /*
+  union
+  {
+    struct { Goods saved }; //Remove
+    struct { Goods *point, Goods old}; //Edit
+  };
+  */
+};
 
 int main(void)
 {
-  char input = 'n';
+  char input = 1;
   struct Goods all_wares[100];
-  struct Goods saved_wares[100];
+
   int index = 0;
-  bool add_bool = false;
-  
+
+  struct action undo;
 
   while(input != 'Q' && input != 'q')
     {
-      puts("\nWelcome to Warehouse number 42\n"
+      puts("\n\nWelcome to Warehouse number 42\n"
 	   "[A]dd a good\n"
 	   "[R]emove a good\n"
 	   "[E]dit a good\n"
@@ -62,12 +74,13 @@ int main(void)
 		 
 		 if      (choice == 'S' || choice == 's')
 		   {
-		     *saved_wares = *all_wares;
+		     undo.type = 1;
+		     undo.mark = &all_wares[index];
+
 		     all_wares[index] = *temp;
 		     index++;
 		     done = true;
-		     add_bool = true;
-		     
+
 		   }
 		 else if (choice == 'D' || choice == 'd')
 		   {
@@ -76,7 +89,7 @@ int main(void)
 		   }
 		 else if (choice == 'E' || choice == 'e')
 		   {
-		     edit_good(temp);
+		     edit_good(temp, index, all_wares);
 		     done = false;
 		   }
 		 else
@@ -89,15 +102,26 @@ int main(void)
 	  }
 	else if (input == 'R' || input == 'r')
 	  {
-	    
-	    *saved_wares = *all_wares;
+	    int choosenGood = choose_listedgood(all_wares, index);
+	    if (choosenGood >= 0)
+	      {
+		undo.type = 2;
+		undo.mark = &all_wares[choosenGood];
+		undo.saved = all_wares[choosenGood];
+		remove_ware(&all_wares[choosenGood]);
+		
+	      }
 	  }
 	else if (input == 'E' || input == 'e')
 	  {
 	    int choosenGood = choose_listedgood(all_wares, index);
 	    if (choosenGood >= 0)
 	      {
-		edit_good(&all_wares[choosenGood]);
+		undo.type = 3;
+		undo.mark = &all_wares[choosenGood];
+		undo.saved = all_wares[choosenGood];
+		edit_good(&all_wares[choosenGood], index, all_wares);
+		
 	      }
 	  }
 	else if (input == 'P' || input == 'p')
@@ -110,19 +134,28 @@ int main(void)
 	  }
 	else if (input == 'U' || input == 'u')
 	  {
-	    if (true)//*all_wares == *saved_wares)
+	    if (undo.type == 0)
 	      {
-		printf("\nNo action to undo: ");
+		printf("\nNothing to undo");
 	      }
-	    else
+	    // Add
+	    else if (undo.type == 1)
 	      {
-		printf("\nAction Undone");
-         	*all_wares = *saved_wares;
-		if (add_bool)
-		  {
-		    index--;
-		    add_bool = false;
-		  }
+		remove_ware(undo.mark);
+		undo.type = 0;
+		index--;
+	      }
+	    // Remove
+	    else if (undo.type == 2)
+	      {
+		*undo.mark = undo.saved;
+		undo.type = 0;
+	      }
+	    // Edit
+	    else if (undo.type == 3)
+	      {
+		*undo.mark = undo.saved;
+		undo.type = 0;
 	      }
 	  }
 	else if (input == 'L' || input == 'l')
@@ -133,6 +166,7 @@ int main(void)
 	      {
 
 		list_goods(all_wares, index, page);
+		//för att se om det finns mer varor på nästa page, annars är det "end page"
 		if (index >((1+page)*20))
 		  {
 		    
