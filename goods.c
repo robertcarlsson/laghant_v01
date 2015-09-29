@@ -98,18 +98,6 @@ void edit_good(struct Goods *ware, int index, struct Goods *array)
     }
 }
 
-void add_string(char *text, char *info)
-{ 
-  printf("%s", info);
-  scanf("%s", text);
-}
-
-void add_int(int *amount, char *info)
-{
-  printf("%s", info);
-  scanf("%d", amount); 
-}
-
 
 void print_good(struct Goods *ware)
 {

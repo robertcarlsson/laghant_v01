@@ -24,13 +24,6 @@ struct action
   enum { NOTHING, ADD, REMOVE, EDIT } type;
   struct Goods saved;
   struct Goods *mark;
-  /*
-  union
-  {
-    struct { Goods saved }; //Remove
-    struct { Goods *point, Goods old}; //Edit
-  };
-  */
 };
 
 int main(void)
